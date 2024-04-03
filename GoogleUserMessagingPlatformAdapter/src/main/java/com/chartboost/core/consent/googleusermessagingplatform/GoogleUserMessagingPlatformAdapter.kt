@@ -28,6 +28,8 @@ class GoogleUserMessagingPlatformAdapter() : ConsentAdapter, Module {
     companion object {
         const val GEOGRAPHY_KEY: String = "geography"
         const val TEST_DEVICE_IDENTIFIERS_KEY: String = "testDeviceIdentifiers"
+        const val moduleId = "google_user_messaging_platform"
+        const val moduleVersion = BuildConfig.CHARTBOOST_CORE_GOOGLE_USER_MESSAGING_PLATFORM_ADAPTER_VERSION
 
         var consentDebugSettings: ConsentDebugSettings? = null
     }
@@ -44,18 +46,17 @@ class GoogleUserMessagingPlatformAdapter() : ConsentAdapter, Module {
         if (geographyInt != 0) {
             consentDebugSettingsBuilder.setDebugGeography(geographyInt)
         }
-        configuration.optJSONArray(TEST_DEVICE_IDENTIFIERS_KEY)?.let {
-            for (i in 0 until it.length()) {
-                consentDebugSettingsBuilder.addTestDeviceHashedId(it.optString(i))
+        configuration.optJSONArray(TEST_DEVICE_IDENTIFIERS_KEY)?.let { jsonArray ->
+            (0 until jsonArray.length()).forEach {
+                consentDebugSettingsBuilder.addTestDeviceHashedId(jsonArray.optString(it))
             }
         }
         consentDebugSettings = consentDebugSettingsBuilder.build()
     }
 
-    override val moduleId: String = "google_user_messaging_platform"
+    override val moduleId: String = Companion.moduleId
 
-    override val moduleVersion: String =
-        BuildConfig.CHARTBOOST_CORE_GOOGLE_USER_MESSAGING_PLATFORM_ADAPTER_VERSION
+    override val moduleVersion: String = Companion.moduleVersion
 
     override var shouldCollectConsent: Boolean = true
         private set
