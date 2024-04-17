@@ -29,7 +29,8 @@ class GoogleUserMessagingPlatformAdapter() : ConsentAdapter, Module {
         const val GEOGRAPHY_KEY: String = "geography"
         const val TEST_DEVICE_IDENTIFIERS_KEY: String = "testDeviceIdentifiers"
         const val moduleId = "google_user_messaging_platform"
-        const val moduleVersion = BuildConfig.CHARTBOOST_CORE_GOOGLE_USER_MESSAGING_PLATFORM_ADAPTER_VERSION
+        const val moduleVersion =
+            BuildConfig.CHARTBOOST_CORE_GOOGLE_USER_MESSAGING_PLATFORM_ADAPTER_VERSION
 
         var consentDebugSettings: ConsentDebugSettings? = null
     }
@@ -81,12 +82,43 @@ class GoogleUserMessagingPlatformAdapter() : ConsentAdapter, Module {
         activity: Activity, dialogType: ConsentDialogType
     ): Result<Unit> {
         return suspendCancellableCoroutine { continuation ->
-            UserMessagingPlatform.loadAndShowConsentFormIfRequired(activity) { loadAndShowError ->
-                loadAndShowError?.let {
+            when (dialogType) {
+                ConsentDialogType.CONCISE -> {
+                    UserMessagingPlatform.loadAndShowConsentFormIfRequired(activity) { loadAndShowError ->
+                        loadAndShowError?.let {
+                            continuation.resume(
+                                Result.failure(
+                                    ChartboostCoreException(
+                                        ChartboostCoreError.ConsentError.DialogShowError
+                                    )
+                                )
+                            )
+                        } ?: run {
+                            shouldCollectConsent = false
+                            continuation.resume(Result.success(Unit))
+                        }
+                    }
+                }
+
+                ConsentDialogType.DETAILED -> {
+                    UserMessagingPlatform.showPrivacyOptionsForm(activity) { formError ->
+                        formError?.let {
+                            continuation.resume(
+                                Result.failure(
+                                    ChartboostCoreException(
+                                        ChartboostCoreError.ConsentError.DialogShowError
+                                    )
+                                )
+                            )
+                        } ?: run {
+                            shouldCollectConsent = false
+                            continuation.resume(Result.success(Unit))
+                        }
+                    }
+                }
+
+                else -> {
                     continuation.resume(Result.failure(ChartboostCoreException(ChartboostCoreError.ConsentError.DialogShowError)))
-                } ?: run {
-                    shouldCollectConsent = false
-                    continuation.resume(Result.success(Unit))
                 }
             }
         }
