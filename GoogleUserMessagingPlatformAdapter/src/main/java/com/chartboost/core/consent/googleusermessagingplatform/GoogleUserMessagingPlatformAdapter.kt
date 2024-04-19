@@ -169,7 +169,7 @@ class GoogleUserMessagingPlatformAdapter() : ConsentAdapter, Module {
                 {
                     ChartboostCoreLogger.d("Google User Messaging Platform consent fetch succeeded")
                     startObservingSharedPreferencesIabStrings(context)
-                    updateConsents()
+                    mutableConsents.putAll(sharedPreferencesIabStrings)
                     shouldCollectConsent = true
                     continuation.resume(Result.success(Unit))
                 },
@@ -177,13 +177,6 @@ class GoogleUserMessagingPlatformAdapter() : ConsentAdapter, Module {
                     ChartboostCoreLogger.d("Unable to get consent information: $requestConsentError")
                     continuation.resume(Result.failure(ChartboostCoreException(ChartboostCoreError.InitializationError.Exception)))
                 })
-        }
-    }
-
-    private fun updateConsents() {
-        mutableConsents.putAll(sharedPreferencesIabStrings)
-        mutableConsents.forEach {
-            listener?.onConsentChange(it.key)
         }
     }
 
