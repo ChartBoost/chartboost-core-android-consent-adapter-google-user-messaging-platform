@@ -76,8 +76,8 @@ dependencies {
     implementation("com.google.android.ump:user-messaging-platform:2.2.0")
 
     // Adapter Dependencies
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 }
 
 artifactory {
@@ -145,7 +145,7 @@ afterEvaluate {
                     }
 
                     scm {
-                        val gitUrl = "https://github.com/ChartBoost/chartboost-core-android-consent-adapter-google"
+                        val gitUrl = "https://github.com/ChartBoost/chartboost-core-android-consent-adapter-google-user-messaging-platform"
                         url.set(gitUrl)
                         connection.set(gitUrl)
                         developerConnection.set(gitUrl)
