@@ -49,6 +49,7 @@ android {
     productFlavors {
         create("local")
         create("remote")
+        create("candidate")
     }
 
     buildTypes {
@@ -65,6 +66,15 @@ android {
         viewBinding = true
         buildConfig = true
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 
 dependencies {
@@ -72,6 +82,7 @@ dependencies {
     // For external usage, please use the following production dependency.
     // You may choose a different release version.
     "remoteImplementation"("com.chartboost:chartboost-core-sdk:1.0.0")
+    "candidateImplementation"("com.chartboost:chartboost-mediation-sdk:5.0.0")
 
     // Consent Management Platform SDK
     implementation("com.google.android.ump:user-messaging-platform:2.2.0")

@@ -13,7 +13,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "GoogleUmpAdapter"
-include(":GoogleUmpAdapter")
+rootProject.name = "GoogleUserMessagingPlatformAdapter"
+include(":GoogleUserMessagingPlatformAdapter")
 include(":chartboostcore")
 include(":ChartboostCore")
