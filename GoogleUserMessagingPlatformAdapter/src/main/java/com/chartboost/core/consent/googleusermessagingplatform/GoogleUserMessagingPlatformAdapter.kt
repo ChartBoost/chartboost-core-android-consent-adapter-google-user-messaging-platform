@@ -41,13 +41,13 @@ class GoogleUserMessagingPlatformAdapter() : ConsentAdapter, Module {
         GoogleUserMessagingPlatformAdapter.consentDebugSettings = consentDebugSettings
     }
 
-    override fun updateProperties(context: Context, configuration: JSONObject) {
-        val geographyInt = configuration.optInt(GEOGRAPHY_KEY)
+    override fun updateCredentials(context: Context, credentials: JSONObject) {
+        val geographyInt = credentials.optInt(GEOGRAPHY_KEY)
         val consentDebugSettingsBuilder = ConsentDebugSettings.Builder(context)
         if (geographyInt != 0) {
             consentDebugSettingsBuilder.setDebugGeography(geographyInt)
         }
-        configuration.optJSONArray(TEST_DEVICE_IDENTIFIERS_KEY)?.let { jsonArray ->
+        credentials.optJSONArray(TEST_DEVICE_IDENTIFIERS_KEY)?.let { jsonArray ->
             (0 until jsonArray.length()).forEach {
                 consentDebugSettingsBuilder.addTestDeviceHashedId(jsonArray.optString(it))
             }
