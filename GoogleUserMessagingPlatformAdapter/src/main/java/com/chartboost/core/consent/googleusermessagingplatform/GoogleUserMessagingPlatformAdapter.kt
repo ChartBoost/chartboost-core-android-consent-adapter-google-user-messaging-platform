@@ -11,7 +11,12 @@ import android.app.Activity
 import android.content.Context
 import com.chartboost.core.ChartboostCoreLogger
 import com.chartboost.core.Utils
-import com.chartboost.core.consent.*
+import com.chartboost.core.consent.ConsentAdapter
+import com.chartboost.core.consent.ConsentAdapterListener
+import com.chartboost.core.consent.ConsentDialogType
+import com.chartboost.core.consent.ConsentKey
+import com.chartboost.core.consent.ConsentSource
+import com.chartboost.core.consent.ConsentValue
 import com.chartboost.core.error.ChartboostCoreError
 import com.chartboost.core.error.ChartboostCoreException
 import com.chartboost.core.initialization.Module
@@ -95,6 +100,7 @@ class GoogleUserMessagingPlatformAdapter() : ConsentAdapter, Module {
                             )
                         } ?: run {
                             shouldCollectConsent = false
+                            mutableConsents.putAll(sharedPreferencesIabStrings)
                             continuation.resume(Result.success(Unit))
                         }
                     }
@@ -112,6 +118,7 @@ class GoogleUserMessagingPlatformAdapter() : ConsentAdapter, Module {
                             )
                         } ?: run {
                             shouldCollectConsent = false
+                            mutableConsents.putAll(sharedPreferencesIabStrings)
                             continuation.resume(Result.success(Unit))
                         }
                     }
