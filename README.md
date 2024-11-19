@@ -13,7 +13,7 @@ The Chartboost Core Google UMP adapter mediates Google User Messaging Platform S
 
 In your `build.gradle`, add the following entry:
 ```
-    implementation "com.chartboost:chartboost-core-adapter-google-ump:1.3.0.0.0"
+    implementation "com.chartboost:chartboost-core-adapter-google-ump:1.3.1.0.0"
 ```
 
 ## Contributions
